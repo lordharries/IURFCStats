@@ -855,6 +855,68 @@
   .footer-links a:hover { color: var(--gold); }
   .footer-copy { font-size: 0.72rem; color: #3a3d45; }
 
+  .data-note { display: none; }
+
+  /* ─── INFO ICON + TOOLTIP ─── */
+  .info-icon-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .info-icon-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s, color 0.2s;
+    font-style: italic;
+    font-family: Georgia, serif;
+  }
+
+  .info-icon-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  .info-tooltip {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 280px;
+    background: var(--deep);
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    font-size: 0.78rem;
+    font-style: italic;
+    color: var(--muted);
+    line-height: 1.6;
+    z-index: 50;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+
+  .info-tooltip::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 8px;
+    width: 8px;
+    height: 8px;
+    background: var(--deep);
+    border-left: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+    transform: rotate(45deg);
+  }
+
+  .info-tooltip.visible { display: block; }
+
   /* ─── RESPONSIVE ─── */
   @media (max-width: 640px) {
     .header-inner { flex-wrap: wrap; }
@@ -924,6 +986,12 @@
     <div class="section-title">
       <div class="title-accent"></div>
       <h2>Season at a Glance</h2>
+      <div class="info-icon-wrap">
+        <button class="info-icon-btn" id="data-info-btn" aria-label="Data sources">ℹ</button>
+        <div class="info-tooltip" id="data-info-tooltip">
+          All appearance data is based on Spond. Tries are based on frantically noting who's scored after a game.
+        </div>
+      </div>
       <div class="title-line"></div>
     </div>
     <div class="season-toggle-bar" id="season-toggle-bar">
@@ -952,8 +1020,6 @@
       </div>
     </div>
   </section>
-
-  <!-- ─── EXTERNAL LINKS ─── -->
   <div class="external-links-row">
     <a class="ext-link-card" href="https://www.englandrugby.com/fixtures-and-results/search-results?competition=1596&season=2025-2026&division=68070#tables" target="_blank" rel="noopener">
       <span class="ext-link-icon">🏉</span>
@@ -966,6 +1032,7 @@
       <span class="ext-link-arrow">↗</span>
     </a>
   </div>
+  <p class="data-note" style="display:none"></p>
 
   <!-- ─── PLAYER SEARCH ─── -->
   <section id="player-search">
@@ -984,7 +1051,7 @@
   </section>
 
   <!-- ─── TRY SCORERS ─── -->
-  <section id="tries">
+  <section id="tries" style="margin-top: 80px;">
     <div class="section-title">
       <div class="title-accent"></div>
       <h2>Try Scorers</h2>
@@ -1515,6 +1582,17 @@ async function init() {
   buildSeasonToggle(seasons);
   const filtered = getFilteredPlayers(currentSeason);
   renderAll(filtered);
+}
+
+// ─── INFO TOOLTIP ─────────────────────────────────────────────────
+const infoBtn = document.getElementById('data-info-btn');
+const infoTooltip = document.getElementById('data-info-tooltip');
+if (infoBtn && infoTooltip) {
+  infoBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    infoTooltip.classList.toggle('visible');
+  });
+  document.addEventListener('click', () => infoTooltip.classList.remove('visible'));
 }
 
 init();
