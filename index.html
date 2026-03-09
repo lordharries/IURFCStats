@@ -693,6 +693,32 @@
 
   .download-btn:hover { background: #c0302b; }
 
+  /* Instagram footer row inside card */
+  .insta-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 7px 12px;
+    flex-shrink: 0;
+  }
+
+  .insta-footer-icon {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  .insta-footer-handle {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.48rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: lowercase;
+    opacity: 0.7;
+  }
+
   /* ─── SEASON TOGGLE ─── */
   .season-toggle-bar {
     display: flex;
@@ -1255,6 +1281,14 @@ function showPlayerProfile(name) {
         <div class="insta-divider" id="ic-divider"></div>
         <div class="insta-stats">${statBoxes}</div>
       </div>
+      <div class="insta-card-footer" id="ic-footer">
+        <svg class="insta-footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/>
+        </svg>
+        <span class="insta-footer-handle">@ickenhamanduxbridgerugby</span>
+      </div>
       <div class="insta-card-band" id="ic-band-bot"></div>
     </div>
     <button class="download-btn" id="download-card-btn">
@@ -1276,6 +1310,7 @@ function showPlayerProfile(name) {
       'ic-top':      { background: '#ab2723', color: '#f1e2c3' },
       'ic-bottom':   { background: '#ab2723', color: '#f1e2c3' },
       'ic-divider':  { background: '#f1e2c3' },
+      'ic-footer':   { background: '#ab2723', color: '#f1e2c3' },
       statBg: 'rgba(0,0,0,0.2)', statColor: '#f1e2c3',
       dlBg: '#000', dlBgHover: '#222',
     },
@@ -1285,6 +1320,7 @@ function showPlayerProfile(name) {
       'ic-top':      { background: '#ab2723', color: '#f1e2c3' },
       'ic-bottom':   { background: '#f1e2c3', color: '#000' },
       'ic-divider':  { background: '#ab2723' },
+      'ic-footer':   { background: '#f1e2c3', color: '#000' },
       statBg: '#ab2723', statColor: '#f1e2c3',
       dlBg: '#000', dlBgHover: '#222',
     },
@@ -1294,6 +1330,7 @@ function showPlayerProfile(name) {
       'ic-top':      { background: '#f1e2c3', color: '#000' },
       'ic-bottom':   { background: '#f1e2c3', color: '#000' },
       'ic-divider':  { background: '#ab2723' },
+      'ic-footer':   { background: '#f1e2c3', color: '#000' },
       statBg: '#000', statColor: '#f1e2c3',
       dlBg: '#ab2723', dlBgHover: '#c0302b',
     },
@@ -1304,7 +1341,7 @@ function showPlayerProfile(name) {
 
   function applyCardTheme(name) {
     const t = CARD_THEMES[name];
-    ['ic-band-top','ic-band-bot','ic-top','ic-bottom','ic-divider'].forEach(id => {
+    ['ic-band-top','ic-band-bot','ic-top','ic-bottom','ic-divider','ic-footer'].forEach(id => {
       const el = document.getElementById(id);
       if (!el) return;
       Object.entries(t[id] || {}).forEach(([k,v]) => el.style[k] = v);
