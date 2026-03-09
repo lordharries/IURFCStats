@@ -705,6 +705,22 @@
 
   .download-btn:hover { background: #c0302b; }
 
+  /* POTM badge on card */
+  .insta-potm {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.52rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+  }
+
   /* Instagram footer row inside card */
   .insta-card-footer {
     display: flex;
@@ -1252,19 +1268,27 @@ function showPlayerProfile(name) {
   const profile = document.getElementById('player-profile');
 
   const allStats = [
-    { label: 'Caps',  value: parseInt(p.Caps)  || 0, key: 'Caps'  },
-    { label: 'Tries', value: parseInt(p.Tries) || 0, key: 'Tries' },
-    { label: 'MOTM',  value: parseInt(p.MOTM)  || 0, key: 'MOTM'  },
-    { label: 'DOTD',  value: parseInt(p.DOTD)  || 0, key: 'DOTD'  },
+    { label: 'Caps',      value: parseInt(p.Caps)      || 0, key: 'Caps'      },
+    { label: 'Tries',     value: parseInt(p.Tries)     || 0, key: 'Tries'     },
+    { label: 'Penalties', value: parseInt(p.Penalties) || 0, key: 'Penalties' },
+    { label: 'MOTM',      value: parseInt(p.MOTM)      || 0, key: 'MOTM'      },
+    { label: 'DOTD',      value: parseInt(p.DOTD)      || 0, key: 'DOTD'      },
   ];
   const stats = allStats.filter(s => s.value > 0);
 
   // Work out if this player leads each category
   const leaders = {};
-  ['Caps','Tries','MOTM','DOTD'].forEach(key => {
+  ['Caps','Tries','Penalties','MOTM','DOTD'].forEach(key => {
     const sorted = allPlayers.filter(x => Number(x[key]) > 0).sort((a,b) => Number(b[key]) - Number(a[key]));
     leaders[key] = sorted.length > 0 ? sorted[0].Player : null;
   });
+
+  // Player of the Month — expects POTM column in sheet (count of times awarded)
+  const potmCount = parseInt(p.POTM) || 0;
+  const potmBadge = potmCount > 0 ? `
+    <div class="insta-potm" id="ic-potm">
+      🏅 <span>Player of the Month${potmCount > 1 ? ' ×' + potmCount : ''}</span>
+    </div>` : '';
 
   const statBoxes = stats.map(s => {
     const isTop = leaders[s.key] === p.Player;
@@ -1300,6 +1324,7 @@ function showPlayerProfile(name) {
       <div class="insta-card-bottom" id="ic-bottom">
         <div class="insta-season-tag" id="ic-season">2025 / 2026 Season</div>
         <div class="insta-player-name" id="ic-name">${p.Player}</div>
+        ${potmBadge}
         <div class="insta-divider" id="ic-divider"></div>
         <div class="insta-stats">${statBoxes}</div>
       </div>
@@ -1363,7 +1388,7 @@ function showPlayerProfile(name) {
 
   function applyCardTheme(name) {
     const t = CARD_THEMES[name];
-    ['ic-band-top','ic-band-bot','ic-top','ic-bottom','ic-divider','ic-footer'].forEach(id => {
+    ['ic-band-top','ic-band-bot','ic-top','ic-bottom','ic-divider','ic-footer','ic-potm'].forEach(id => {
       const el = document.getElementById(id);
       if (!el) return;
       Object.entries(t[id] || {}).forEach(([k,v]) => el.style[k] = v);
