@@ -1116,14 +1116,15 @@ function mergePlayers(players) {
     const name = p.Player;
     if (!name) return;
     if (!map[name]) {
-      map[name] = { Player: name, Caps: 0, Tries: 0, Penalties: 0, MOTM: 0, DOTD: 0, POTM: 0 };
+      map[name] = { Player: name, Caps: 0, Tries: 0, Penalties: 0, MOTM: 0, DOTD: 0, POTM: 0, 'Websites Made': 0 };
     }
-    map[name].Caps      += Number(p.Caps)      || 0;
-    map[name].Tries     += Number(p.Tries)     || 0;
-    map[name].Penalties += Number(p.Penalties) || 0;
-    map[name].MOTM      += Number(p.MOTM)      || 0;
-    map[name].DOTD      += Number(p.DOTD)      || 0;
-    map[name].POTM      += Number(p.POTM)      || 0;
+    map[name].Caps             += Number(p.Caps)             || 0;
+    map[name].Tries            += Number(p.Tries)            || 0;
+    map[name].Penalties        += Number(p.Penalties)        || 0;
+    map[name].MOTM             += Number(p.MOTM)             || 0;
+    map[name].DOTD             += Number(p.DOTD)             || 0;
+    map[name].POTM             += Number(p.POTM)             || 0;
+    map[name]['Websites Made'] += Number(p['Websites Made']) || 0;
   });
   return Object.values(map);
 }
@@ -1269,11 +1270,12 @@ function showPlayerProfile(name) {
   const profile = document.getElementById('player-profile');
 
   const allStats = [
-    { label: 'Caps',      value: parseInt(p.Caps)      || 0, key: 'Caps'      },
-    { label: 'Tries',     value: parseInt(p.Tries)     || 0, key: 'Tries'     },
-    { label: 'Penalties', value: parseInt(p.Penalties) || 0, key: 'Penalties' },
-    { label: 'MOTM',      value: parseInt(p.MOTM)      || 0, key: 'MOTM'      },
-    { label: 'DOTD',      value: parseInt(p.DOTD)      || 0, key: 'DOTD'      },
+    { label: 'Caps',         value: parseInt(p.Caps)              || 0, key: 'Caps'         },
+    { label: 'Tries',        value: parseInt(p.Tries)             || 0, key: 'Tries'        },
+    { label: 'Penalties',    value: parseInt(p.Penalties)         || 0, key: 'Penalties'    },
+    { label: 'MOTM',         value: parseInt(p.MOTM)              || 0, key: 'MOTM'         },
+    { label: 'DOTD',         value: parseInt(p.DOTD)              || 0, key: 'DOTD'         },
+    { label: 'Websites Made', value: parseInt(p['Websites Made']) || 0, key: null           },
   ];
   const stats = allStats.filter(s => s.value > 0);
 
@@ -1294,7 +1296,7 @@ function showPlayerProfile(name) {
     </div>` : '';
 
   const statBoxes = stats.map(s => {
-    const isTop = leaders[s.key] === p.Player;
+    const isTop = s.key && leaders[s.key] === p.Player;
     return `
     <div class="insta-stat${isTop ? ' is-top' : ''}" id="istat-${s.label}">
       <div class="insta-stat-value">${s.value}${isTop ? '<span class="insta-stat-medal">🥇</span>' : ''}</div>
