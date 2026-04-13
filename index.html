@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
 <title>Ickenham & Uxbridge RFC — Season Stats</title>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
@@ -1324,7 +1325,7 @@ function mergePlayers(players) {
     const name = p.Player;
     if (!name) return;
     if (!map[name]) {
-      map[name] = { Player: name, Caps: 0, Tries: 0, Penalties: 0, MOTM: 0, DOTD: 0, POTM: 0, 'Websites Made': 0, Captain: 0, _seasons: [] };
+      map[name] = { Player: name, Caps: 0, Tries: 0, Penalties: 0, MOTM: 0, DOTD: 0, POTM: 0, 'Websites Made': 0, 'Gigs': 0, Captain: 0, _seasons: [] };
       EOS_AWARDS.forEach(a => { map[name][a.key] = 0; });
     }
     map[name].Caps             += Number(p.Caps)             || 0;
@@ -1334,6 +1335,7 @@ function mergePlayers(players) {
     map[name].DOTD             += Number(p.DOTD)             || 0;
     map[name].POTM             += Number(p.POTM)             || 0;
     map[name]['Websites Made'] += Number(p['Websites Made']) || 0;
+    map[name]['Gigs']          += Number(p['Gigs'])          || 0;
     map[name].Captain          += Number(p.Captain)          || 0;
     EOS_AWARDS.forEach(a => { map[name][a.key] += Number(p[a.key]) || 0; });
     if (p.Season) map[name]._seasons.push(p.Season);
@@ -1511,7 +1513,8 @@ function showPlayerProfile(name) {
     { label: 'Penalties',    value: parseInt(p.Penalties)         || 0, key: 'Penalties'    },
     { label: 'MOTM',         value: parseInt(p.MOTM)              || 0, key: 'MOTM'         },
     { label: 'DOTD',         value: parseInt(p.DOTD)              || 0, key: 'DOTD'         },
-    { label: 'Websites Made', value: parseInt(p['Websites Made']) || 0, key: null           },
+    { label: 'Websites Made', value: parseInt(p['Websites Made']) || 0, key: null },
+    { label: 'Gigs',          value: parseInt(p['Gigs'])          || 0, key: null },
   ];
   const stats = allStats.filter(s => s.value > 0);
 
