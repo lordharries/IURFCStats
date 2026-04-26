@@ -1516,7 +1516,7 @@ function showPlayerProfile(name) {
     { label: 'Websites Made', value: parseInt(p['Websites Made']) || 0, key: null },
     { label: 'Gigs',          value: parseInt(p['Gigs'])          || 0, key: null },
   ];
-  const stats = allStats.filter(s => s.value > 0);
+  const stats = allStats.filter(s => s.label === 'Caps' || s.value > 0);
 
   // Work out if this player leads each category
   const leaders = {};
