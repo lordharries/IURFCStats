@@ -564,8 +564,9 @@
   /* The card itself: 324×405 = 4:5 ratio (1080×1350 at 3×) */
   .insta-card {
     width: 324px;
-    height: 405px;
-    overflow: hidden;
+    min-height: 405px;
+    height: auto;
+    overflow: visible;
     box-shadow: 0 12px 48px rgba(0,0,0,0.6);
     font-family: 'Oswald', sans-serif;
     display: flex;
@@ -621,9 +622,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     padding: 10px 16px 14px;
-    gap: 8px;
+    gap: 7px;
     position: relative;
   }
 
